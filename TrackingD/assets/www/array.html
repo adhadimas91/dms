@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>dabby create</title>
+<style>
+.longDiv{
+height: 32px;
+}
+.shortDiv{
+width: 30px;
+height: 30px;
+border: 1px solid black;
+margin-right: 1px;
+float: left;
+}
+</style>
+
+<script>
+
+var items = [];
+var cnt;
+//var radioButton = 0;
+
+window.onload = init;
+  
+function init() {
+  document.getElementById("create").onclick = create;
+  document.getElementById("clear").onclick = init;
+  document.forms['form1'].reset();
+  document.getElementById('out').innerHTML = '';
+  cnt = 0;
+  items = [];
+}
+ 
+function create() {  
+
+  var nameInput = document.getElementById("name");
+  var name = nameInput.value;
+     
+  var colorSelect = document.getElementById("color");
+  var colorOption = colorSelect.options[colorSelect.selectedIndex];
+  var color = colorOption.value;
+      
+  if (name == null || name == "") {
+    alert("please enter a name");
+    return;
+  }
+  
+  var len = document.forms['form1'].elements['amount'].length;
+
+  for (var i = 0; i < len; i++) {
+      if (form1.elements.amount[i].checked) {
+         var amount = form1.elements.amount[i].value;
+      }
+  }
+
+  if (amount == null || amount == undefined) {
+    alert("please enter an amount");
+    return;
+  }
+  
+  //alert(cnt +':'+ name +':'+ color +':'+ amount);
+
+  var item1 = {'id':cnt, 'name':name, 'color':color, 'amount':amount};
+  items[cnt] = item1;
+  cnt++;
+
+  var out = document.getElementById('out');
+  out.innerHTML = '';
+
+  for(var i=0 ; i<items.length ; i++){
+  out.innerHTML += '<br/>Id: '+ i +' Name: '+ items[i].name +' Color: '+ items[i].color +' Amount: '+ items[i].amount;
+  addBlocks(items[i].amount,items[i].color);
+  }
+}
+
+function addBlocks(amt,color){
+  var out = document.getElementById('out');
+  var div1 = document.createElement("div"); 
+  div1.className = 'longDiv';
+  var div2;
+  for(var i=0 ; i<amt ; i++){
+    div2 = document.createElement("div"); 
+    div2.className = 'shortDiv';
+    div2.style.backgroundColor = color;
+    div1.appendChild(div2);
+  }
+  out.appendChild(div1);
+}
+
+</script>
+</head>
+
+<body>
+
+<form name="form1">
+<p>Create items:</p> 
+
+<ol>
+<li>
+<label for="name">Name: </label>
+<input type="text" id="name" size="30">
+</li>
+<li>Pick a color: <br>
+   <select id="color">
+      <option value="red">Red</option>
+      <option value="orange">Orange</option>
+      <option value="yellow">Yellow</option>
+   </select>
+</li>
+<li>How many items do you want to create?<br>
+    <input type="radio" id="id4" name="amount" value="4">
+    <label for="id4">4</label><br>
+    <input type="radio" id="id8" name="amount" value="8">
+    <label for="id8">8</label><br>
+    <input type="radio" id="id12" name="amount" value="12">
+    <label for="id12">12</label><br>
+</li>
+</ol>
+
+<input type="button" id="create" value="Create"/>
+<input type="button" id="clear" value="Clear"/>
+</form>
+
+<div id="out">
+</div>
+
+</body>
+</html>

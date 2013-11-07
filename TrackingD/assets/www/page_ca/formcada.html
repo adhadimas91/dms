@@ -1,0 +1,278 @@
+
+
+<div data-role="page" id="formcadta" >
+<script src="../js/datePicker.js"></script>
+	<script>
+	
+$('#formcadta').on('pageshow', function (event) {
+	//alert('ca');
+	currencySelect();
+	remarkSelect();
+	dtatypeSelect();
+	$('#npk').attr('readonly','readonly');
+	$('#pmtlname').attr('readonly','readonly');
+	var npk = localStorage.getItem('userid');
+	var name = localStorage.getItem('username');
+	 $('#npk').val(npk);
+	 $('#pmtlname').val(name);
+		initDateSelect('departure',null);
+        initDateSelect('return',null);
+        initDateSelect('ReturnDate',null);
+	    
+});
+
+function savedocumentcada(){
+	//var x = getFieldDate('departure');
+	//var y = getFieldDate('return');
+	//alert(x);
+	var cada = {};
+    cada.ProjectNumber = $('#projectnumber').val();
+    cada.Remark = $('#remark').val();
+    cada.CurrencyId = $('#currency').val();
+    cada.Currency = $('#amount').val();
+    cada.DtaType = $('#dtatype').val();
+    cada.PmTlName = $('#pmtlname').val();
+    cada.Npk = $('#npk').val();
+    cada.ProjectName =  $('#projectname').val();
+    cada.CustomerName = $('#customer').val();
+	cada.AccountName = $('#accountname').val();
+	cada.Bank = $('#bank').val();
+	cada.AccountNumber = $('#accountnumber').val();
+	cada.DepartureDate = getFieldDate('departure');
+    cada.ReturnDate = getFieldDate('return');
+	
+	cada.Description = $('#description').val();
+    return cada;
+	
+	}
+function sentdatacada(){
+		
+    $.mobile.loading( 'show', { text: 'loading', textVisible: true });
+    var parameter = {};
+    datacada = savedocumentcada();
+    parameter = datacada;
+	//alert(JSON.stringify(parameter));
+    var url = appConfig().jsonip+'/RESTCreateDocument/addDocumentCADTA/format/json';
+	//alert(url);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(parameter),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(result)  {
+            
+            //alert(result.Message);
+
+            if(result.status == true){
+				$.mobile.loading( 'hide');
+				$.mobile.changePage("index_ca.html");
+            }else{
+				$.mobile.loading( 'hide');
+				alert('not success');
+            }
+       }
+   });
+
+		}
+		
+		
+function currencySelect(){
+	//alert('currenc');
+	var namatabel ="ca_docs";
+	var matauang = "currency";
+    var urlpusatc = "172.30.50.100:8000";
+    var url = appConfig().jsonip+'/RESTCreateDocument/getSelectOption/tbl/'+ namatabel +'/col/'+ matauang +'/format/json';
+   //alert(url);
+    $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+         
+                $('#currency').empty();
+                $('#currency').append('<option value="" >Choose Curenncy</option>');
+
+            $.each(data, function(index, item) {
+                if (item.option_value != null){
+                    $('#currency').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                } else {
+                    $('#currency').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                }
+                $('#currency').selectmenu('refresh', true);
+            });
+        }
+    });
+	
+}
+
+
+function remarkSelect(){
+	//alert('currenc');
+	var namatabel ="dta_docs";
+	var mataremark = "remark";
+   var urlpusatc = "172.30.50.100:8000";
+   var url = appConfig().jsonip+'/RESTCreateDocument/getSelectOption/tbl/'+ namatabel +'/col/'+ mataremark +'/format/json';
+  // alert(url);
+    $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+         
+                $('#remark').empty();
+                $('#remark').append('<option value="" >Choose Remark</option>');
+
+            $.each(data, function(index, item) {
+                if (item.option_value != null){
+                    $('#remark').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                } else {
+                    $('#remark').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                }
+                $('#remark').selectmenu('refresh', true);
+            });
+        }
+    });
+	
+}
+function dtatypeSelect(){
+	//alert('currenc');
+	var namatabel ="dta_docs";
+	var mataremark = "dta_type";
+   var urlpusatc = "172.30.50.100:8000";
+   var url = appConfig().jsonip+'/RESTCreateDocument/getSelectOption/tbl/'+ namatabel +'/col/'+ mataremark +'/format/json';
+  // alert(url);
+    $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+         
+                $('#dtatype').empty();
+                $('#dtatype').append('<option value="" >Choose DTA</option>');
+
+            $.each(data, function(index, item) {
+                if (item.option_value != null){
+                    $('#dtatype').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                } else {
+                    $('#dtatype').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                }
+                $('#dtatype').selectmenu('refresh', true);
+            });
+        }
+    });
+	
+}
+   </script>
+    <div data-theme="a" data-role="header" data-position="fixed">
+     <a href="index_ca.html" >Back</a>
+       <h6>Create CA-DTA</h6>
+    </div>
+    <div data-role="content">
+    <form action="">
+            <div data-role="fieldcontain">
+                <label for="npk">
+                    Npk
+                </label>
+                <input name="npk" id="npk" placeholder="Npk" value="" type="text">
+            </div>
+    
+            <div data-role="fieldcontain">
+                <label for="pmtlname">
+                    PM / TL Name
+                </label>
+                <input name="pmtlname" id="pmtlname" placeholder="PM / TL Name" value="" type="text">
+            </div>
+           
+            <div data-role="fieldcontain">
+                <label for="projectnumber">
+                    Project Number
+                </label>
+                <input name="projectnumber" id="projectnumber" placeholder="Project Number" value="" type="text">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="customer">
+                    Project Name
+                </label>
+                <input name="projectname" id="projectname" placeholder="Project Name" value="" type="text">
+            </div>
+           <div data-role="fieldcontain">
+                <label for="customer">
+                    Customer Name
+                </label>
+                <input name="customer" id="customer" placeholder="Customer Name" value="" type="text">
+            </div>
+            <div data-role="fieldcontain">
+				<label for="currency">Currency</label> <select id="currency"
+					name="currency"></select>
+			</div>
+			
+             <div data-role="fieldcontain">
+             <label for="amount">
+                    Amount
+                </label>
+                <input name="amount" id="amount" placeholder="Amount" value="" type="number">
+            </div>
+            <div data-role="fieldcontain">
+				<label for="remark">Remark</label> <select id="remark"
+					name="remark" ></select>
+			</div>
+             <div data-role="fieldcontain">
+				<label for="dtatype">DTA Type</label> <select id="dtatype"
+					name="dtatype" ></select>
+			</div>
+            
+            <div data-role="fieldcontain">
+                <label for="description">
+                    Document Description
+                </label>
+                <textarea name="" id="description" placeholder="Description"></textarea>
+            </div>
+            
+             <div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal"
+					id="departure">
+					<legend>Departure Schedule</legend>
+					<input class="backward" value="0" type="hidden" /> <input
+						class="forward" value="365" type="hidden" /> <select class="SelectDate"></select><select class="SelectMonth"></select><select class="SelectYear"></select>
+				</fieldset>
+			</div>
+            
+             <div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal"
+					id="return">
+					<legend>Return Schedule</legend>
+					<input class="backward" value="0" type="hidden" /> <input
+						class="forward" value="365" type="hidden" /> <select class="SelectDate"></select><select class="SelectMonth"></select><select class="SelectYear"></select>
+				</fieldset>
+			</div>
+             <hr />
+           <div data-role="fieldcontain">
+           
+             <label for="accountname">
+                    Account Name
+                </label>
+                <input name="accountname" id="accountname" placeholder="Account Name" value="" type="text">
+            </div>
+             <div data-role="fieldcontain">
+             <label for="bank">
+                   Bank
+                </label>
+                <input name="bank" id="bank" placeholder="Bank" value="" type="text" >
+            </div>
+             <div data-role="fieldcontain">
+             <label for="accountnumber">
+                    Account Number
+                </label>
+                <input name="accountnumber" id="accountnumber" placeholder="Account Number" value="" type="text">
+            </div>
+            
+            <a id="SubmitButton" data-role="button" onclick="sentdatacada();">Submit</a> 
+			<a id="CancelButton" data-role="button" onclick="#">Cancel</a>
+        </form>
+
+        </div>
+    
+    <div data-theme="a" data-role="footer" data-position="fixed">
+    </div>
+</div>

@@ -1,0 +1,287 @@
+
+
+<div data-role="page" id="formca" >
+	<script>
+$('#formca').on('pageshow', function (event) {
+	//alert('ca');
+	$('#npk').attr('readonly','readonly');
+	$('#pmtlname').attr('readonly','readonly');
+	var npk = localStorage.getItem('userid');
+	var name = localStorage.getItem('username');
+	 $('#npk').val(npk);
+	 $('#pmtlname').val(name);
+	 
+	 //$('#SubmitButton').addClass('ui-disabled');
+	currencySelect();
+	remarkSelect();
+		initDateSelect('LeaveRequestDate',getJSDate(null));
+        initDateSelect('LeaveDate',getJSDate(null));
+        initDateSelect('ReturnDate',getJSDate(null));
+	    
+});
+
+
+
+
+				
+
+function currencySelect(){
+	//alert('currenc');
+	var namatabel ="ca_docs";
+	var matauang = "currency";
+   var urlpusatc = "172.30.50.100:8000";
+   var url = appConfig().jsonip+'/RESTCreateDocument/getSelectOption/tbl/'+ namatabel +'/col/'+ matauang +'/format/json';
+   //alert(url);
+    $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+         
+                $('#currency').empty();
+                $('#currency').append('<option value="" >Choose Currency</option>');
+
+            $.each(data, function(index, item) {
+                if (item.option_value != null){
+                    $('#currency').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                } else {
+                    $('#currency').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                }
+                $('#currency').selectmenu('refresh', true);
+            });
+        }
+    });
+	
+}
+
+function remarkSelect(){
+	//alert('currenc');
+	var namatabel ="ca_docs";
+	var mataremark = "remark";
+   var urlpusatc = "172.30.50.100:8000";
+   var url = appConfig().jsonip+'/RESTCreateDocument/getSelectOption/tbl/'+ namatabel +'/col/'+ mataremark +'/format/json';
+  // alert(url);
+    $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+         
+                $('#remark').empty();
+                $('#remark').append('<option value="" >Choose Remark</option>');
+
+            $.each(data, function(index, item) {
+                if (item.option_value != null){
+                    $('#remark').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                } else {
+                    $('#remark').append('<option value="'+item.option_value+'">'+item.option_text+'</option>');
+                }
+                $('#remark').selectmenu('refresh', true);
+            });
+        }
+    });
+	
+}
+$('input, select').live('change', function(e) {
+    //validateForm();
+});
+
+function validateForm(){
+	var validated = true;
+	$('#SubmitButton').addClass('ui-disabled');
+   
+    if($('#npk').val() == undefined || $('#npk').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+	if($('#projectnumber').val() == undefined || $('#projectnumber').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+	if($('#projectname').val() == undefined || $('#projectname').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+	if($('#customer').val() == undefined || $('#customer').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+	
+	if($('#currency').val() == undefined || $('#currency').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+	if($('#amount').val() == undefined || $('#amount').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+    if($('#remark').val() == undefined || $('#remark').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+    if($('#detailbiaya').val() == undefined || $('#detailbiaya').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+    if($('#accountname').val() == undefined || $('#accountname').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+    if($('#bank').val() == undefined || $('#bank').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+    if($('#accountnumber').val() == undefined || $('#accountnumber').val().length == 0){
+        $('#SubmitButton').changeButtonText('Please Enter your Reason for Request').button();
+        return false;
+    }
+	
+	
+    $('#SubmitButton .ui-btn-text').text('Submit');
+    $('#SubmitButton').removeClass('ui-disabled');
+}
+
+function savedocumentca(){
+	var ca = {};
+    ca.ProjectNumber = $('#projectnumber').val();
+    ca.Remark = $('#remark').val();
+    ca.CurrencyId = $('#currency').val();
+    ca.Currency = $('#amount').val();
+    ca.CostDetail = $('#detailbiaya').val();
+    ca.PmTlName = $('#pmtlname').val();
+    ca.Npk = $('#npk').val();
+    ca.ProjectName =  $('#projectname').val();
+    ca.CustomerName = $('#customer').val();
+	ca.AccountName = $('#accountname').val();
+	ca.Bank = $('#bank').val();
+	ca.AccountNumber = $('#accountnumber').val();
+	ca.Description = $('#description').val();
+    return ca;
+	
+	}
+	
+	function sentdata(){
+		
+    $.mobile.loading( 'show', { text: 'loading', textVisible: true });
+    var parameter = {};
+    dataca = savedocumentca();
+    parameter = dataca;
+	//alert(JSON.stringify(parameter));
+    var url = appConfig().jsonip+'/RESTCreateDocument/addDocumentCA/format/json/';
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(parameter),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(result)  {
+            
+            //alert(result.Message);
+			
+            if(result.status == true){
+				$.mobile.loading( 'hide');
+				alert('Succes');
+				$.mobile.changePage("index_ca.html");
+            }else{
+				$.mobile.loading( 'hide');
+				alert('not success');
+            }
+       }
+   });
+		
+		
+		}
+   </script>
+    <div data-theme="a" data-role="header" data-position="fixed">
+    <a href="index_ca.html" >Back</a>
+       <h6>Create CA</h6>
+    </div>
+    <div data-role="content">
+    <form action="">
+    		 <div data-role="fieldcontain">
+                <label for="npk">
+                    Npk
+                </label>
+                <input name="npk" id="npk" placeholder="Npk" value="" type="text">
+            </div>
+    
+            <div data-role="fieldcontain">
+                <label for="pmtlname">
+                    PM / TL Name
+                </label>
+                <input name="pmtlname" id="pmtlname" placeholder="PM / TL Name" value="" type="text">
+            </div>
+           
+            <div data-role="fieldcontain">
+                <label for="projectnumber">
+                    Project Number
+                </label>
+                <input name="projectnumber" id="projectnumber" placeholder="Project Number" value="" type="text">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="customer">
+                    Project Name
+                </label>
+                <input name="projectname" id="projectname" placeholder="Project Name" value="" type="text">
+            </div>
+           <div data-role="fieldcontain">
+                <label for="customer">
+                    Customer Name
+                </label>
+                <input name="customer" id="customer" placeholder="Customer Name" value="" type="text">
+            </div>
+            <div data-role="fieldcontain">
+				<label for="currency">Currency</label> <select id="currency"
+					name="currency"></select>
+			</div>
+			
+             <div data-role="fieldcontain">
+             <label for="amount">
+                    Amount
+                </label>
+                <input name="amount" id="amount" placeholder="Amount" value="" type="number">
+            </div>
+            <div data-role="fieldcontain">
+				<label for="remark">Remark</label> <select id="remark"
+					name="remark" ></select>
+			</div>
+            <div data-role="fieldcontain">
+				<label for="detailbiaya">Cost Detail</label> <input
+					name="detailbiaya" id="detailbiaya" type="Text" />
+			</div>
+            <div data-role="fieldcontain">
+                <label for="description">
+                    Document Description
+                </label>
+                <textarea name="" id="description" placeholder="Description"></textarea>
+            </div>
+            <hr />
+            <div data-role="fieldcontain">
+            
+             <label for="accountname">
+                    Account Name
+                </label>
+                <input name="accountname" id="accountname" placeholder="Account Name" value="" type="text">
+            </div>
+             <div data-role="fieldcontain">
+             <label for="bank">
+                   Bank
+                </label>
+                <input name="bank" id="bank" placeholder="Bank" value="" type="text" onchange="">
+            </div>
+             <div data-role="fieldcontain">
+             <label for="accountnumber">
+                    Account Number
+                </label>
+                <input name="accountnumber" id="accountnumber" placeholder="Account Number" value="" type="text">
+            </div>
+            
+            <a id="SubmitButton" data-role="button" onclick="sentdata()">Submit</a> 
+			<a id="CancelButton" data-role="button" onclick="#">Cancel</a>
+        </form>
+
+        </div>
+    
+    <div data-theme="a" data-role="footer" data-position="fixed">
+    </div>
+</div>

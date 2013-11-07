@@ -1,0 +1,63 @@
+
+
+<div data-role="page" id="formhijaulistitem" >
+	<script>
+$('#formhijaulistitem').on('pageshow', function (event) {
+	//alert('ca');
+		initDateSelect('LeaveRequestDate',getJSDate(null));
+        initDateSelect('LeaveDate',getJSDate(null));
+        initDateSelect('return',getJSDate(null));
+	    
+});
+
+   </script>
+    <div data-theme="a" data-role="header" data-position="fixed">
+    <a href="index_ca.html" >Back</a>
+       <h6>Data Item Bon Hijau</h6>
+       <a href="#popupLogin" data-rel="popup" data-position-to="window">Add Item</a>
+    </div>
+    <div data-role="content">
+   <ul data-role="listview" data-inset="true">
+    <li><a href="#">
+        
+        <h2>Bon Pizza </h2>
+        <p>22 juni 2013</p>
+         <p>Rp 150000</p></a>
+    </li>
+    <li><a href="#">
+        <h2>Burger King</h2>
+        <p>22 juni 2013</p>
+         <p>Rp 150000</p></a>
+    </li>
+    <li><a href="#">
+       <h2>Makan Malam</h2>
+        <p>22 juni 2013</p>
+         <p>Rp 150000</p></a>
+    </li>
+</ul>
+    </div>
+        <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+    <form>
+        <div style="padding:10px 20px;">
+            <h3>Add Item </h3>
+            <label for="un" class="ui-hidden-accessible">Description:</label>
+            <input name="user" id="un" value="" placeholder="Description" data-theme="a" type="text">
+            
+             <div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal"
+					id="return">
+					<legend>tgl</legend>
+					<input class="backward" value="0" type="hidden" /> <input
+						class="forward" value="365" type="hidden" /> <select class="SelectDate"></select><select class="SelectMonth"></select><select class="SelectYear"></select>
+				</fieldset>
+			</div>
+            <label for="pw" class="ui-hidden-accessible">Password:</label>
+            <input name="pass" id="pw" value="" placeholder="Amount" data-theme="a" type="password">
+            <button type="submit" data-theme="b" data-icon="check">save</button>
+        </div>
+    </form>
+</div>
+    
+    <div data-theme="a" data-role="footer" data-position="fixed">
+    </div>
+</div>

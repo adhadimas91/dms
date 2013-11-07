@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Documenttrack</title>
+	<link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.3.2.css">
+    <link rel="stylesheet"  href="css/themes/default/jquery.mobile.structure-1.3.2.css">
+    <link rel="stylesheet"  href="css/themes/default/dmsthemescustom.css">
+    <link rel="stylesheet" href="css/main.css" >
+	<script src="js/jquery.js"></script>
+	<script src="js/cordova.js"></script>
+    <script src="js/datejs.js"></script>
+	<script src="js/jquery.mobile-1.3.2.js"></script>
+    <script src="js/datePicker.js"></script>
+    <script src="js/maindms.js"></script>
+</head>
+<body>
+<div data-role="page" id="page1">
+	<script>
+$('#page1').on('pageshow', function (event) {
+		
+     	 $.getJSON('configip.json', function(data) {
+        setConfig(data); 
+    });
+		
+		});
+
+    function login(){
+			//$.mobile.loading('show',{text:'loading', textVisible:true, theme:'c'});
+			 
+			var username = $('div.ui-page-active .username').val();
+			var password = $('div.ui-page-active .password').val();
+			var datajson = {};
+			datajson.username = username ;
+			datajson.password = password ;
+			var urlpusat = appConfig().jsonip+'/RESTLogin/UserData/format/json' ;
+			//alert(urlpusat);
+			//alert(JSON.stringify(datajson));
+			$.ajax({
+				url:urlpusat,
+				type:"POST",
+				data:JSON.stringify(datajson),
+				contentType: "application/json; charset=utf-8",
+				dataType: 'json',
+				success: function(result){
+				
+				if (result.status == true){
+					$('div.ui-page-active .username').val('');
+					$('div.ui-page-active .password').val('');
+					var user_id = result.user_id;
+					var role_id = result.role_id;
+					var user_name = result.user_name;
+					storedata(user_id,role_id,user_name);
+					$.mobile.loading('hide');
+					$.mobile.changePage("page/main.html",{ transition: "slide", changeHash: false });
+					
+					}else{
+						alert('wrong password ask administration ');
+						$.mobile.loading('hide');
+						}
+				
+				}
+			});
+			
+	function storedata(user_id,role_id,user_name){
+			localStorage.setItem('userid',user_id);
+			localStorage.setItem('roleid',role_id);
+			localStorage.setItem('username',user_name);
+			}
+		
+	
+		}
+
+    </script>
+    <div data-theme="a" data-role="header">
+       
+    </div>
+    <div data-role="content">
+        <div id="box">
+            <div id="Lheader">
+            <div id="headtitle">
+            <div align="center">
+            <img width="200px" src="logo2.png"></div>
+            </div>
+            </div>
+                  <div id="boxdalam">
+       				<input type="text" class="username" name="username" id="username" value="" placeholder="Username">
+       				<input type="password" class="password" name="password" id="password" value="" autocomplete="off" placeholder="********">
+       				<a href="#" data-role="button"  data-corners="false" data-theme="a" onclick="login()">Login</a>
+                 </div>   
+                 <div id="Lfooter"></div>    
+        </div>
+        
+        </div>
+        
+    </div>
+    <div data-theme="a" data-role="footer" data-position="fixed">
+        
+    </div>
+</div>
+</body>
+</html>

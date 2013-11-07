@@ -1,0 +1,68 @@
+<div data-role="page" id="listview" >
+<script src="../js/maindms.js"></script>
+<script src="../js/datePicker.js" ></script>
+
+	<script>
+$('#listview').on('pageshow', function (event) {
+	//alert('ca');
+	viewlistdoc();
+	
+	    
+});
+		
+
+
+function viewlistdoc(){
+	var npk = localStorage.getItem('userid');
+	var iddocument = $('#idbonhijau').val();
+
+	var url = appConfig().jsonip+'/RESTViewDocument/getListDocument/TypeId/null/DocumentDescription/null/DocumentCreator/'+npk+'/format/json';
+	//alert(url);
+    $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+			//alert(JSON.stringify(data));
+            $('#datadoclist').empty();
+            $.each(data, function(index, item) {
+			if(item.document_type == '3'){
+				$('#datadoclist').append(
+		     '<li data-theme="f"><a href="doc_edit.html?type='+item.document_type+'&id='+item.document_id+'&user='+item.document_creator+'" data-role="button"  data-inline="true" onClick="dodetailitem('+item.document_type_name+','+item.bonhijau_id+')">'+'<h2>'+ item.document_type_name+'</h2>'+'<p>' + item.document_description + '</p>' +'<p>' + item.role_destination_name + '</p>' +'</a></li>').listview('refresh');
+                
+			   }
+			   if(item.document_type == '2'){
+				$('#datadoclist').append(
+		     '<li data-theme="d"><a href="doc_edit.html?type='+item.document_type+'&id='+item.document_id+'&user='+item.document_creator+'" data-role="button"  data-inline="true" onClick="dodetailitem('+item.document_type_name+','+item.bonhijau_id+')">'+'<h2>'+ item.document_type_name+'</h2>'+'<p>' + item.document_description + '</p>' +'<p>' + item.role_destination_name + '</p>' +'</a></li>').listview('refresh');
+                
+			   }
+		 if(item.document_type == '1'){
+				$('#datadoclist').append(
+		     '<li data-theme="e"><a href="doc_edit.html?type='+item.document_type+'&id='+item.document_id+'&user='+item.document_creator+'&status='+item.current_status+'" data-role="button"  data-inline="true" onClick="dodetailitem('+item.document_type_name+','+item.bonhijau_id+')">'+'<h2>'+ item.document_type_name+'</h2>'+'<p>' + item.document_description + '</p>' +'<p>' + item.role_destination_name + '</p>' +'</a></li>').listview('refresh');
+                
+			   }
+                
+            });
+        }
+    });
+			
+  }
+
+
+
+   </script>
+    <div data-theme="a" data-role="header" data-position="fixed">
+    <a href="../page/main.html" data-role="button">Back</a>
+       <h6>View Document</h6><a href="#mypanel" data-role="button" id="additem" data-icon="bars" >add</a>
+       <!-- <a href="formhijaulistitem.html" >Add Item</a>-->
+    </div>
+    <div data-role="content">
+         <ul data-role="listview" id="datadoclist"  data-split-icon="delete" data-theme="a" data-split-theme="b" data-inset="true">
+		</ul>
+    
+    
+</div>
+    <div data-theme="a" data-role="footer" data-position="fixed">
+   
+    </div>
+</div>

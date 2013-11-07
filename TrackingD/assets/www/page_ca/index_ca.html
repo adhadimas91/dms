@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>DMS</title>
+
+</head>
+<body>
+
+<div data-role="page" id="pilihca" >
+<script>
+	
+	function fca(){
+		//alert('ca');
+		$.mobile.changePage("formca.html");
+		}
+	function fcadta(){
+		$.mobile.changePage("formcada.html");
+		}
+	function fhijau(){
+		$.mobile.changePage("formhijau.html");
+		}
+</script>
+    <div data-theme="a" data-role="header" data-position="fixed">
+    <a href="../page/main.html" >Back</a>
+       <h6>CHOOSE CA</h6>
+    </div>
+    <div data-role="content">
+        <input value="Form CA"  onClick="fca()" data-theme="b" type="button">
+        <input value="Form CA-DTA"  onClick="fcadta()" data-theme="b" type="button"> 
+        <input value="Form Hijau"  onClick="fhijau()" data-theme="b" type="button"> 
+        </div>
+    
+    <div data-theme="a" data-role="footer" data-position="fixed">
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

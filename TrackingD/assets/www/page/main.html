@@ -1,0 +1,57 @@
+
+<div data-role="page" id="main">
+<script>
+$('#main').live('pageshow',function(event){
+		
+	//alert(localStorage.getItem('ImgUrl'));	
+    if(localStorage.getItem('userid')==null){
+        $.mobile.changePage( "index.html");
+    } else {
+	
+        $('div.ui-page-active .npk').text(localStorage.getItem('userid'))
+	}
+}) ;
+
+</script>
+    <div data-theme="a" data-role="header"><a href="../index.html">log out</a>
+       <h1>DMS</h1>
+    </div>
+    <div data-role="content">
+      <ul data-role="listview" data-inset="true" data-theme="a">
+    <li><a href="">
+        <img src="img/new_document.png">
+        <h2>Notification</h2>
+        </a>
+    </li>
+    
+     <li ><a href="../page_ca/index_ca.html" >
+        <img src="img/pending.png">
+        <h2>Request Document</h2>
+        </a>
+    </li>
+    <li><a href="../page_document/index_doc.html" >
+        <img src="img/pending.png">
+        <h2>View Document</h2>
+        </a>
+    </li>
+    <li><a href="#">
+        <img src="img/pending.png">
+        <h2>Document History</h2>
+        </a>
+    </li>
+    <li><a href="#">
+        <img src="img/pending.png">
+        <h2>Search History</h2>
+        </a>
+    </li>
+    <li><a href="#">
+        <img src="img/pending.png">
+        <h2>Profile</h2>
+        </a>
+    </li>
+    </ul>
+    </div>
+    <div data-theme="a" data-role="footer" data-position="fixed">
+        
+    </div>
+</div>

@@ -1,0 +1,41 @@
+@CHARSET "ISO-8859-1";
+#box {
+	
+	height: 30%;
+	width: 100%;
+	margin: auto;
+	
+}
+#box2 {
+	background-image: url(../_assets/dms_image/human.png);
+	background-repeat: no-repeat;
+	background-position: right;
+}
+
+
+#box3 {
+	background-image: url(../_assets/dms_image/human_key.png);
+	background-repeat: no-repeat;
+	background-position: right;
+}
+#Lheader {
+	height: 50px;
+	width: auto;
+	
+}
+#headtitle {
+	height: auto;
+	width: auto;
+	margin-top: 30%;
+	color: #FFF;
+}
+#boxdalam {
+	height: 50%;
+	width: 80%;
+	margin: auto;
+}
+#Lfooter {
+	height: 50px;
+	width: auto;
+
+}
